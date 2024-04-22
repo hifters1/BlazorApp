@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using BlazorApp2.Data;
 using BlazorApp2.Models;
 
+//This is the controller that handles the CRUD operations for the user model.
+
 namespace BlazorApp2.Controllers
 {
     public class UsersController : Controller
@@ -20,10 +22,11 @@ namespace BlazorApp2.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var blazorApp2DbContext = _context.Users.Include(u => u.Preferences);
-            return View(await blazorApp2DbContext.ToListAsync());
+            //var blazorApp2DbContext = _context.Users.Include(u => u.Preferences);
+            var blazorApp2DbContext = _context.Preferences.ToListAsync();
+            return View(blazorApp2DbContext);
         }
 
         // GET: Users/Details/5
@@ -55,6 +58,8 @@ namespace BlazorApp2.Controllers
         // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        //This method is not populating the preference selection ????
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,UserName,PreferenceId,PreferenceValue")] User user)
@@ -89,6 +94,8 @@ namespace BlazorApp2.Controllers
         // POST: Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        //This method is not populating the preference selection ?????
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserId,UserName,PreferenceId,PreferenceValue")] User user)

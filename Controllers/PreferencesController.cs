@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using BlazorApp2.Data;
 using BlazorApp2.Models;
 
+// This is the controller that handles the CRUD operations for the preference model
+
 namespace BlazorApp2.Controllers
 {
     public class PreferencesController : Controller
@@ -52,6 +54,9 @@ namespace BlazorApp2.Controllers
         // POST: Preferences/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        //This method is throwing "EditForm requires a Model parameter, or an EditContext parameter, but not both"
+        //So this method is not working
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PreferenceId,PreferenceValue")] Preference preference)
