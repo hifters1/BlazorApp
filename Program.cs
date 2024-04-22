@@ -1,6 +1,7 @@
-using BlazorApp2.Components;
+﻿using BlazorApp2.Components;
 using BlazorApp2.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.Services.AddRazorComponents()
 builder.Services.AddDbContext<BlazorApp2DbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"))
     );
+
+builder.Services.AddQuickGridEntityFrameworkAdapter();;
 
 
 var app = builder.Build();

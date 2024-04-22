@@ -1,0 +1,24 @@
+﻿@page "/users"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject BlazorApp2.Data.BlazorApp2DbContext DB
+@using BlazorApp2.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="users/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.Users">
+    <PropertyColumn Property="user => user.UserName" />
+    @*<PropertyColumn Property="user => user.PreferenceId" />*@
+    <PropertyColumn Property="user => user.PreferenceValue" />
+
+    <TemplateColumn Context="user">
+        <a href="@($"users/edit?userid={user.UserId}")">Edit</a> |
+        <a href="@($"users/details?userid={user.UserId}")">Details</a> |
+        <a href="@($"users/delete?userid={user.UserId}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>

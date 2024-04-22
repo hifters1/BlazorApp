@@ -1,0 +1,54 @@
+﻿@page "/users/create"
+@inject BlazorApp2.Data.BlazorApp2DbContext DB
+@using BlazorApp2.Models
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="User" OnValidSubmit="AddUser" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="username" class="form-label">UserName:</label> 
+                <InputText id="username" @bind-Value="User.UserName" class="form-control" /> 
+                <ValidationMessage For="() => User.UserName" class="text-danger" /> 
+            </div>        
+            @*<div class="mb-3">
+                <label for="preferenceid" class="form-label">PreferenceId:</label> 
+                <InputNumber id="preferenceid" @bind-Value="User.PreferenceId" class="form-control" /> 
+                <ValidationMessage For="() => User.PreferenceId" class="text-danger" /> 
+            </div>  *@
+            <div class="mb-3">
+                <label for="preferencevalue" class="form-label">PreferenceValue:</label> 
+                <InputSelect id="preferencevalue" @bind-Value="User.PreferenceValue" class="form-control" />
+                @*<InputText id="preferencevalue" @bind-Value="User.PreferenceValue" class="form-control" /> *@
+                <ValidationMessage For="() => User.PreferenceValue" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/users">Back to List</a>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public User User { get; set; } = new();
+
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddUser()
+    {
+        DB.Users.Add(User);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/users");
+    }
+}

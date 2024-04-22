@@ -1,0 +1,86 @@
+﻿@page "/Preferences/edit"
+@inject BlazorApp2.Data.BlazorApp2DbContext DB
+@using BlazorApp2.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h4>Preference</h4>
+<hr />
+@if (Preference is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Preference" OnValidSubmit="UpdatePreference" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="Preference.PreferenceId" value="@Preference.PreferenceId" />
+                <div class="mb-3">
+                    <label for="preferencevalue" class="form-label">PreferenceValue:</label>
+                    <InputText id="preferencevalue" @bind-Value="Preference.PreferenceValue" class="form-control" />
+                    <ValidationMessage For="() => Preference.PreferenceValue" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/preferences">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public int PreferenceId { get; set; }
+
+    [SupplyParameterFromForm]
+    public Preference? Preference { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Preference ??= await DB.Preferences.FirstOrDefaultAsync(m => m.PreferenceId == PreferenceId);
+
+        if (Preference is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see https://aka.ms/RazorPagesCRUD.
+    public async Task UpdatePreference()
+    {
+        DB.Attach(Preference!).State = EntityState.Modified;
+
+        try
+        {
+            await DB.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!PreferenceExists(Preference!.PreferenceId))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/preferences");
+    }
+
+    bool PreferenceExists(int preferenceid)
+    {
+        return DB.Preferences.Any(e => e.PreferenceId == preferenceid);
+    }
+}

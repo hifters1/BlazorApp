@@ -1,0 +1,96 @@
+﻿@page "/Users/edit"
+@inject BlazorApp2.Data.BlazorApp2DbContext DB
+@using BlazorApp2.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h4>User</h4>
+<hr />
+@if (User is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="User" OnValidSubmit="UpdateUser" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="User.UserId" value="@User.UserId" />
+                <div class="mb-3">
+                    <label for="username" class="form-label">UserName:</label>
+                    <InputText id="username" @bind-Value="User.UserName" class="form-control" />
+                    <ValidationMessage For="() => User.UserName" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="preferenceid" class="form-label">PreferenceId:</label>
+                    <InputNumber id="preferenceid" @bind-Value="User.PreferenceId" class="form-control" />
+                    <ValidationMessage For="() => User.PreferenceId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="preferencevalue" class="form-label">PreferenceValue:</label>
+                    <InputText id="preferencevalue" @bind-Value="User.PreferenceValue" class="form-control" />
+                    <ValidationMessage For="() => User.PreferenceValue" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/users">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public int UserId { get; set; }
+
+    [SupplyParameterFromForm]
+    public User? User { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        User ??= await DB.Users.FirstOrDefaultAsync(m => m.UserId == UserId);
+
+        if (User is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see https://aka.ms/RazorPagesCRUD.
+    public async Task UpdateUser()
+    {
+        DB.Attach(User!).State = EntityState.Modified;
+
+        try
+        {
+            await DB.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!UserExists(User!.UserId))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/users");
+    }
+
+    bool UserExists(int userid)
+    {
+        return DB.Users.Any(e => e.UserId == userid);
+    }
+}
