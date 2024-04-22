@@ -2,9 +2,11 @@
 {
     public class Preference
     {
-        public int PreferenceId { get; set; }
-        public string PreferenceValue { get; set; }
-        public virtual ICollection<User>? Users { get; set; }
+        //This model was used to create the table Users using the migration tool in PMC.
+        public int PreferenceId { get; set; }         //Entity framework treats as primary key
+        public string PreferenceValue { get; set; }   //Required for display purposes
+        public virtual ICollection<User>? Users { get; set; }  //Creates a list of preferences for displaying
+                                                               //Entity framework will load when needed
 
     }
 }

@@ -4,6 +4,7 @@
 @inject NavigationManager NavigationManager
 @using Microsoft.EntityFrameworkCore
 
+@*This page will allow the modification of the selected preference. *@
 <PageTitle>Edit</PageTitle>
 
 <h1>Edit</h1>
@@ -24,7 +25,7 @@ else
                 <input type="hidden" name="Preference.PreferenceId" value="@Preference.PreferenceId" />
                 <div class="mb-3">
                     <label for="preferencevalue" class="form-label">PreferenceValue:</label>
-                    <InputText id="preferencevalue" @bind-Value="Preference.PreferenceValue" class="form-control" />
+                    <InputSelect id="preferencevalue" @bind-Value="Preference.PreferenceValue" class="form-control" />
                     <ValidationMessage For="() => Preference.PreferenceValue" class="text-danger" />
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>

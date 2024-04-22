@@ -2,11 +2,12 @@
 {
     public class User
     {
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-        public int? PreferenceId { get; set; }
-        public string? PreferenceValue { get; set; }
-        public virtual Preference? Preferences { get; set; }
+        //This model was used to create the table Users using the migration tool in PMC.
+        public int UserId { get; set; }         //Entity framework treats as primary key
+        public string UserName { get; set; }    //Required for display purposes
+        public int? PreferenceId { get; set; }  //Have decided that this field is not needed
+        public string? PreferenceValue { get; set; }  //Display name of preference
+        public virtual Preference? Preferences { get; set; }  //Single instance to Preferences
 
     }
 }
