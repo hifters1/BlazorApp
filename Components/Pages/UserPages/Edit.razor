@@ -22,7 +22,7 @@ else
             <EditForm method="post" Model="User" OnValidSubmit="UpdateUser" FormName="edit" Enhance>
                 <DataAnnotationsValidator />
                 <ValidationSummary />
-                <input type="hidden" name="User.UserId" value="@User.UserId" />
+                <input type="hidden" name="User.UserId" value="@User.Id" />
                 <div class="mb-3">
                     <label for="username" class="form-label">UserName:</label>
                     <InputText id="username" @bind-Value="User.UserName" class="form-control" />
@@ -57,7 +57,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        User ??= await DB.Users.FirstOrDefaultAsync(m => m.UserId == UserId);
+        User ??= await DB.Users.FirstOrDefaultAsync(m => m.Id == UserId);
 
         if (User is null)
         {
@@ -77,7 +77,7 @@ else
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!UserExists(User!.UserId))
+            if (!UserExists(User!.Id))
             {
                 NavigationManager.NavigateTo("notfound");
             }
@@ -92,6 +92,6 @@ else
 
     bool UserExists(int userid)
     {
-        return DB.Users.Any(e => e.UserId == userid);
+        return DB.Users.Any(e => e.Id == userid);
     }
 }

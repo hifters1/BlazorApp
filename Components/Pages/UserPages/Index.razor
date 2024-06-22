@@ -18,8 +18,8 @@
     <PropertyColumn Property="user => user.PreferenceValue" />
 
     <TemplateColumn Context="user">
-        <a href="@($"users/edit?userid={user.UserId}")">Edit</a> |
-        <a href="@($"users/details?userid={user.UserId}")">Details</a> |
-        <a href="@($"users/delete?userid={user.UserId}")">Delete</a>
+        <a href="@($"users/edit?userid={user.Id}")">Edit</a> |
+        <a href="@($"users/details?userid={user.Id}")">Details</a> |
+        <a href="@($"users/delete?userid={user.Id}")">Delete</a>
     </TemplateColumn>
 </QuickGrid>

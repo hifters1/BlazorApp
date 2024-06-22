@@ -45,7 +45,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        user = await DB.Users.FirstOrDefaultAsync(m => m.UserId == UserId);
+        user = await DB.Users.FirstOrDefaultAsync(m => m.Id == UserId);
 
         if (user is null)
         {

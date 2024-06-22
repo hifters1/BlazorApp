@@ -1,13 +1,17 @@
-﻿namespace BlazorApp2.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BlazorApp2.Models
 {
     public class User
     {
         //This model was used to create the table Users using the migration tool in PMC.
-        public int UserId { get; set; }         //Entity framework treats as primary key
+        [Key]
+        public int Id { get; set; }         //Entity framework treats as primary key
+        [Required]
         public string UserName { get; set; }    //Required for display purposes
         public int? PreferenceId { get; set; }  //Have decided that this field is not needed
         public string? PreferenceValue { get; set; }  //Display name of preference
-        public virtual Preference? Preferences { get; set; }  //Single instance to Preferences
+        public ICollection<Preference> Preferences { get; set; }  //Single instance to Preferences
 
     }
 }

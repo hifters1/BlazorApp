@@ -39,7 +39,7 @@ namespace BlazorApp2.Controllers
 
             var user = await _context.Users
                 .Include(u => u.Preferences)
-                .FirstOrDefaultAsync(m => m.UserId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -100,7 +100,7 @@ namespace BlazorApp2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserId,UserName,PreferenceId,PreferenceValue")] User user)
         {
-            if (id != user.UserId)
+            if (id != user.Id)
             {
                 return NotFound();
             }
@@ -114,7 +114,7 @@ namespace BlazorApp2.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.UserId))
+                    if (!UserExists(user.Id))
                     {
                         return NotFound();
                     }
@@ -139,7 +139,7 @@ namespace BlazorApp2.Controllers
 
             var user = await _context.Users
                 .Include(u => u.Preferences)
-                .FirstOrDefaultAsync(m => m.UserId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -165,7 +165,7 @@ namespace BlazorApp2.Controllers
 
         private bool UserExists(int id)
         {
-            return _context.Users.Any(e => e.UserId == id);
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }
